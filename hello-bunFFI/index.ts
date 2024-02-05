@@ -1,15 +1,13 @@
-import { dlopen, suffix } from 'bun:ffi';
+import { dlopen, suffix } from 'bun:ffi'
 
-const path = `libmylib.${suffix}`;
+const libPath = `libmy_lib.${suffix}`
 
-const {symbols} = dlopen(path, {
-	hello_world: {
-		args: [],
+const {symbols: {
+	print
+}} = dlopen(libPath, {
+	print: {
+		args: ['cstring'],
 	}
 });
 
-symbols.hello_world();
-
-process.stdout.on('data', () => {
-	console.log("EVENT")
-})
+print(Buffer.from("Test"));
